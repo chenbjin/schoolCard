@@ -12,7 +12,13 @@ class ListName(SGMLParser):
 		self.urls = []
 		provincename =[]
 		schoolname = []
+		is_a13 = 0
+		is_a17 = 0
 
 	def start_a(self, attrs):
 		for k, v in attrs:
 			if k == 'class' and v == 'a13':
+				is_a13 = 1
+			if k == 'class' and v == 'a17':
+				is_a17 = 1
+			
