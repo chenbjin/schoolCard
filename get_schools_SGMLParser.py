@@ -1,6 +1,5 @@
 # -*- encoding:utf-8 -*-
 import urllib2
-import string
 import re
 import os
 from sgmllib import SGMLParser 
@@ -8,7 +7,7 @@ from sgmllib import SGMLParser
 功能： 从"中国教育和科研计算机网"获取各省份高校数目及名称。
 URL： http://ziyuan.eol.cn/list.php?listid=128
 '''
-SCH_NUM = 0
+SCH_NUM = 0  #国内高校总数
 '''
 SGML解析器，解析HTML标签
 '''
@@ -76,14 +75,14 @@ def getProvince(data, base_url):
 	for item in province.provincename:
 		if province.prov_urls[cnt].startswith("list.php?"):
 			total += 1
-			result += "--------"+item.decode('utf-8').encode('utf-8') + "--------\n"
+			#result += "--------"+item.decode('utf-8').encode('utf-8') + "--------\n"
 			print item.decode('utf-8').encode('utf-8'), province.prov_urls[cnt]
 			url = base_url + province.prov_urls[cnt]
 			content = getUrl(url)
 			result += getSchool(content)
 		cnt += 1
 	print "total:",total
-	result += str(total) + ' ' + str(SCH_NUM)
+	#result += str(total) + ' ' + str(SCH_NUM)
 	saveResult('./data/sch_name_SGMLParser.txt',result)
 
 '''
@@ -98,11 +97,12 @@ def getSchool(data):
 	#print "num_school:",len(school.schoolname)
 	for x in xrange(0,len(school.schoolname)):
 		if school.sch_urls[x].startswith("director.php?"):
-			result += school.schoolname[x]+"\n"
+			result += str(SCH_NUM) + ' ' + school.schoolname[x]+"\n"
 			SCH_NUM += 1
 			#print cnt, school.schoolname[x]
 			cnt += 1
 	return result
+
 '''
 将程序结果写到本地文件
 '''
