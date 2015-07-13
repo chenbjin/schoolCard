@@ -79,7 +79,7 @@ def getCombineReports():
 	global REPORT_RENAME
 	report_type = "合并"
 	getReportsTemplate(report_type)
-	saveResult('reports_combine.txt',REPORT_RENAME)
+	saveResult('report s_combine.txt',REPORT_RENAME)
 
 '''
 获取更名通知，存入本地文件reports_combine.txt
@@ -110,6 +110,7 @@ def getSetupReports():
 
 '''
 获取建立学院通知，存入本地文件reports_found.txt
+注意：需进一步抓取细节，在什么学院基础上建立新学院
 '''
 def getFoundReports():
 	global REPORT_RENAME
