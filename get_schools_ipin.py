@@ -34,7 +34,7 @@ def getSchoolNameByFile(htmlname):
 	for item in schoolItem:
 		schoolranking += str(cnt) + " "+item[1]+'\n'
 		cnt += 1 
-	saveResult('schoolranking.txt',schoolranking)
+	saveResult('sch_name_ipin.txt',schoolranking)
 
 def getSchoolNameByUrl(url):
 	user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
