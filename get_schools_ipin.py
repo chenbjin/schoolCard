@@ -17,7 +17,7 @@ def getSchoolNameByFile(htmlname):
 	schoolranking = ""
 	cnt = 1
 	for item in schoolItem:
-		schoolranking += str(cnt) + " "+item[1]+'\n'
+		schoolranking += item[1]+'\n'
 		cnt += 1 
 	saveResult('sch_name_ipin.txt',schoolranking)
 
@@ -44,7 +44,8 @@ def readFile(filename):
 	return content
 
 def saveResult(filename, content):
-	f = open(filename, 'w+')
+	filepath = './data/sch_name/'
+	f = open(filepath+filename, 'w+')
 	f.write(content)
 	f.close()
 

@@ -118,7 +118,7 @@ def getCombineReports():
 	global REPORT_RENAME
 	report_type = "合并"
 	getReportsTemplate(report_type)
-	saveResult('report s_combine.txt',REPORT_RENAME)
+	saveResult('reports_combine.txt',REPORT_RENAME)
 
 '''
 获取更名通知，存入本地文件reports_combine.txt
@@ -162,7 +162,8 @@ def getFoundReports():
 将程序结果写到本地文件
 '''
 def saveResult(filename, content):
-	f = open(filename, 'w+')
+	filepath = './data/reports/'
+	f = open(filepath+filename, 'w+')
 	f.write(content)
 	f.close()
 

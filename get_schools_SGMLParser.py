@@ -83,7 +83,7 @@ def getProvince(data, base_url):
 		cnt += 1
 	print "total:",total
 	#result += str(total) + ' ' + str(SCH_NUM)
-	saveResult('./data/sch_name_SGMLParser.txt',result)
+	saveResult('sch_name_SGMLParser.txt',result)
 
 '''
 获取学校名称
@@ -107,6 +107,7 @@ def getSchool(data):
 将程序结果写到本地文件
 '''
 def saveResult(filename, content):
+	filepath = './data/sch_name/'
 	f = open(filename, 'w+')
 	f.write(content)
 	f.close()

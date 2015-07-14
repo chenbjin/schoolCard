@@ -13,19 +13,20 @@ def readCSV(filename):
 	for row in reader:
 		newrow = ','.join(row).decode('utf-8').encode('utf-8')
 		if re.match(r'^\d+', newrow):
-			result += str(row[0]) +' '+ row[1]+'\n'
-	saveResult('./data/sch_name_gov.txt',result)
+			result += row[1]+'\n'
+	saveResult('sch_name_gov.txt',result)
 
 '''
 将程序结果写到本地文件
 '''
 def saveResult(filename, content):
-	f = open(filename, 'w+')
+	filepath = './data/sch_name/'
+	f = open(filepath+filename, 'w+')
 	f.write(content)
 	f.close()
 
 def main():
-	filename = 'sch_gov.csv'
+	filename = './data/sch_gov.csv'
 	readCSV(filename)
 
 if __name__ == '__main__':
