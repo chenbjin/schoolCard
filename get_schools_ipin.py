@@ -3,7 +3,10 @@ import urllib2
 import string
 import re
 import os
-		
+
+'''
+从iPIN抓取高校名称
+'''	
 def loadSchoolName(filename):
 	freader = open(filename)
 	return freader.readlines()

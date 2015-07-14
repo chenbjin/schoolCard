@@ -2,8 +2,36 @@
 import urllib2
 import urllib
 import re
-
+from sgmllib import SGMLParser
+'''
+功能： 从教育部获取各高校更名/合并/转设/建立的通知
+URL： http://www.moe.gov.cn/jyb_xxgk/moe_xxgk/xxgk_left/nfo_search/
+'''
 REPORT_RENAME = ""
+
+'''
+SGML解析器，解析<a>标签
+'''
+class ReportName(SGMLParser):
+	"""docstring for ListName"""
+	def __init__(self):
+		SGMLParser.__init__(self)
+		self.urls = []
+		self.reportsname = []
+		self.is_a = 0
+
+	def start_a(self, attrs):
+		for k, v in attrs:
+			if k == 'href' and v.startswith("http://www.moe.gov.cn/srcsite"):
+				self.urls.append(v)
+				is_a = 1
+
+	def end_a(self):
+		self.is_a = 0
+	
+	def handle_data(self,text):
+		if self.is_a:
+			self.reportsname.append(text)
 
 '''
 抓取网页
@@ -22,14 +50,25 @@ def getUrl(url):
 	return content
 
 '''
-模式匹配，匹配更名通知
+模式匹配，匹配通知标题，对"建立"的学院进一步分析
 '''
-def patternRec(content):
+def patternRec(content, report_type):
 	global REPORT_RENAME
-	reports = re.findall('var abc = "(.*?)"', content, re.S)
-	for item in reports:
-		print item
-		REPORT_RENAME += item+'\n'
+	if report_type == "同意建立":
+		report_list = ReportName()
+		report_list.feed(content)
+		for rp_url in report_list.urls:
+			rp_content = getUrl(rp_url)
+			rp_summary = re.findall('<td class="gongkai_font_gray" colspan="5" valign="top">(.*?)</td>',rp_content,re.S)
+			#print rp_summary[0].find("基础上建立")
+			if rp_summary[0].find("基础上建立") != -1:
+				print rp_summary[0]
+				REPORT_RENAME += rp_summary[0]+'\n'
+	else:
+		reports = re.findall('var abc = "(.*?)"', content, re.S)
+		for item in reports:
+			print item
+			REPORT_RENAME += item+'\n'
 
 '''
 构建查询的URL
@@ -58,7 +97,7 @@ def getReportOnPage(content,report_type):
 		#print cnt
 		url = urlBuild(report_type, cnt)
 		content = getUrl(url)
-		patternRec(content)
+		patternRec(content,report_type)
 		cnt += 1
 
 '''
@@ -67,8 +106,8 @@ def getReportOnPage(content,report_type):
 def getReportsTemplate(report_type):
 	url = urlBuild(report_type, page=1)
 	content = getUrl(url)
-	patternRec(content)
-	getReportOnPage(content,report_type)
+	patternRec(content, report_type)
+	getReportOnPage(content, report_type)
 	#print total_page
 	
 
@@ -110,7 +149,7 @@ def getSetupReports():
 
 '''
 获取建立学院通知，存入本地文件reports_found.txt
-注意：需进一步抓取细节，在什么学院基础上建立新学院
+注意：需进一步抓取细节，在什么学院基础上建立新学院。
 '''
 def getFoundReports():
 	global REPORT_RENAME

@@ -3,7 +3,7 @@ import csv
 import re
 
 '''
-从csv文件读取高校名称
+从教育部csv文件读取高校名称
 '''
 def readCSV(filename):
 	result = ""
