@@ -1,4 +1,6 @@
 # -*- encoding:utf8 -*-
+#@author:  chenbjin
+#@time:    2015-07-12
 import urllib2
 import urllib
 import re
